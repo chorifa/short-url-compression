@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.chorifa.shorturl.dao.URLDataObjectMapper">
+  <resultMap id="BaseResultMap" type="com.chorifa.shorturl.dataobject.URLDataObject">
+    <id column="id" jdbcType="BIGINT" property="id" />
+    <result column="short_url" jdbcType="VARCHAR" property="shortUrl" />
+    <result column="origin_url" jdbcType="VARCHAR" property="originUrl" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    id, short_url, origin_url
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from origin_url_2_short_url
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+    delete from origin_url_2_short_url
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <insert id="insert" parameterType="com.chorifa.shorturl.dataobject.URLDataObject" keyProperty="id" useGeneratedKeys="true">
+    insert into origin_url_2_short_url (id, short_url, origin_url
+      )
+    values (#{id,jdbcType=BIGINT}, #{shortUrl,jdbcType=VARCHAR}, #{originUrl,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.chorifa.shorturl.dataobject.URLDataObject" keyProperty="id" useGeneratedKeys="true">
+    insert into origin_url_2_short_url
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="shortUrl != null">
+        short_url,
+      </if>
+      <if test="originUrl != null">
+        origin_url,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="shortUrl != null">
+        #{shortUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="originUrl != null">
+        #{originUrl,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.chorifa.shorturl.dataobject.URLDataObject">
+    update origin_url_2_short_url
+    <set>
+      <if test="shortUrl != null">
+        short_url = #{shortUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="originUrl != null">
+        origin_url = #{originUrl,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.chorifa.shorturl.dataobject.URLDataObject">
+    update origin_url_2_short_url
+    set short_url = #{shortUrl,jdbcType=VARCHAR},
+      origin_url = #{originUrl,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+
+  <select id="selectByShortUrl" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List" />
+    from origin_url_2_short_url
+    where short_url = #{shortUrl,jdbcType=VARCHAR}
+  </select>
+
+</mapper>
